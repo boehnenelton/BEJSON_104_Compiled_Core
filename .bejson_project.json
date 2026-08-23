@@ -1,0 +1,68 @@
+{
+  "Format": "BEJSON",
+  "Format_Version": "104a",
+  "Format_Creator": "Elton Boehnen",
+  "Session_Id": "c61f96e8-c490-4637-af8a-c302a45f83f6",
+  "Project_Name": "BEJSON_Core_Compiled",
+  "Project_Modified_Date": "2026-08-18T23:40:50Z",
+  "Project_Description": "4-way parity compiled core v1.1.0. Rebuilt from new lib sources. C-01 path_guard security fix applied. list_validator added to all 4 languages for surface parity (H-03). All languages on same-date source snapshot (H-01).",
+  "Schema_Version": "1.6.0",
+  "Project_Version": "1.1.0",
+  "Package_Version": "1",
+  "Schema_Name": "MFDB-132",
+  "Project_GUID": "053545c3-4691-4caf-bc0b-1ab85fdd7207",
+  "Records_Type": [
+    "RootPackage"
+  ],
+  "Fields": [
+    {
+      "name": "change_log",
+      "type": "string"
+    },
+    {
+      "name": "date_changed",
+      "type": "string"
+    },
+    {
+      "name": "change_notes",
+      "type": "string"
+    }
+  ],
+  "Values": [
+    [
+      "v1.1.0 \u2014 Full rebuild from new lib sources",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "C-01 FIXED: PY path_guard v1.1.0 sibling-bypass security fix",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "H-01 FIXED: All 4 languages built from same-date source snapshot",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "H-03 PARTIAL: bejson_list_validator added to PY, JS, SH (TS already had it)",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "Library_Version bumped: 204 \u2192 226",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "Schema_Name: MFDB-132 in all headers (Bug MFDB-132 compliance)",
+      "2026-08-18",
+      "Phase 1"
+    ],
+    [
+      "Fresh RELATIONAL_IDs on all 4 files",
+      "2026-08-18",
+      "Phase 1"
+    ]
+  ]
+}
