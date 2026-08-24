@@ -2,9 +2,8 @@
 """
 Image Resizer Script
 Author: Elton Boehnen (boehnenelton2024@gmail.com)
-Description: Restores original full-sized images from 'images/backup/' and applies
-             an additional 22% reduction from current size (overall ~51.6% scaling down
-             to ~484x271) while maintaining aspect ratio using Pillow.
+Description: Resizes images from 'images/backup/' with an additional 6% reduction
+             from current size (scaling down to 384x214) while maintaining aspect ratio using Pillow.
 """
 import os
 import shutil
@@ -13,10 +12,10 @@ from PIL import Image
 SRC_DIR = "images"
 BACKUP_DIR = os.path.join(SRC_DIR, "backup")
 
-# Current images are at 38% of original size.
-# A further 22% reduction means taking 78% (100% - 22%) of current size:
-# 0.38 * 0.78 = 0.2964 (~29.64% of original size, or 523 * 0.78 = 408x228)
-ADDITIONAL_REDUCTION_FACTOR = 0.78  # Reduce current size by 22% (keep 78%)
+# Current images are at 408x228.
+# An additional 6% reduction means keeping 94% (100% - 6% = 94%):
+# 408 * 0.94 = 383.52 -> 384x214
+ADDITIONAL_REDUCTION_FACTOR = 0.94  # Reduce current size by 6% (keep 94%)
 
 def main():
     if not os.path.exists(BACKUP_DIR):
@@ -29,7 +28,7 @@ def main():
         print("[INFO] No images found to process.")
         return
 
-    print(f"[INFO] Processing {len(files)} images with additional 22% size reduction...")
+    print(f"[INFO] Processing {len(files)} images with additional 6% size reduction...")
 
     for f in files:
         src_path = os.path.join(SRC_DIR, f)
@@ -47,7 +46,7 @@ def main():
         new_w = int(round(curr_w * ADDITIONAL_REDUCTION_FACTOR))
         new_h = int(round(curr_h * ADDITIONAL_REDUCTION_FACTOR))
 
-        # Open original full-res image from backup to avoid multi-generational resampling artifacts
+        # Open original full-res image from backup to preserve quality
         with Image.open(backup_path) as orig_img:
             orig_w, orig_h = orig_img.size
             resample_filter = getattr(Image, "Resampling", Image).LANCZOS
@@ -59,7 +58,7 @@ def main():
 
             print(f"  -> {f}: {curr_w}x{curr_h} -> {new_w}x{new_h} ({new_size_bytes} bytes)")
 
-    print("[SUCCESS] All images reduced by an additional 22%!")
+    print("[SUCCESS] All images reduced by an additional 6%!")
 
 if __name__ == "__main__":
     main()
