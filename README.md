@@ -46,6 +46,9 @@ The **BEJSON 104 Compiled Core Ecosystem** is an enterprise-grade, single-file, 
 
 Traditional data stores rely on binary database engines (e.g., SQLite) or key-repetitive JSON/YAML files that incur massive storage and parsing overhead. BEJSON (Boehnen Elton JSON) solves this problem by decoupling schema definitions from records, storing data in column-oriented fields and positional record arrays.
 
+![BEJSON Unified Core Slide 1](images/BEJSON_MFDB_Unified_Core_-_Slide_1.png)
+![Compiled Core Slide 1](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_1.png)
+
 By utilizing positional arrays, BEJSON:
 - Reduces file size by 40% to 70% compared to standard JSON array-of-objects structures.
 - Remains 100% compliant with standard JSON parsers in all programming languages.
@@ -66,6 +69,9 @@ The BEJSON ecosystem defines three core document specifications, each tailored t
 
 ### BEJSON 104 (Standard Entity Document)
 Designated for primary entity data storage within an MFDB database. Contains an explicit reference to its parent database manifest via `Parent_Hierarchy`.
+
+![BEJSON Unified Core Slide 2](images/BEJSON_MFDB_Unified_Core_-_Slide_2.png)
+![Compiled Core Slide 2](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_2.png)
 
 **Rules:**
 - `Records_Type`: Exactly 1 string entry declaring the entity name.
@@ -94,6 +100,9 @@ Designated for primary entity data storage within an MFDB database. Contains an 
 ### BEJSON 104a (Standalone / Flat Meta Document)
 Used for database manifests (`104a.mfdb.bejson`), standalone configuration files, and flat metadata stores.
 
+![BEJSON Unified Core Slide 3](images/BEJSON_MFDB_Unified_Core_-_Slide_3.png)
+![Compiled Core Slide 3](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_3.png)
+
 **Rules:**
 - `Records_Type`: Exactly 1 string entry.
 - `Header Rules`: Permits arbitrary `PascalCase` custom top-level headers (e.g., `DB_Name`, `MFDB_Version`, `Author`).
@@ -120,6 +129,9 @@ Used for database manifests (`104a.mfdb.bejson`), standalone configuration files
 
 ### BEJSON 104db (Multi-Entity Relational Document)
 Used when multiple distinct entities must co-exist within a single plain-text file.
+
+![BEJSON Unified Core Slide 4](images/BEJSON_MFDB_Unified_Core_-_Slide_4.png)
+![Compiled Core Slide 4](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_4.png)
 
 **Rules:**
 - `Records_Type`: 2 or more entity strings.
@@ -148,11 +160,17 @@ Used when multiple distinct entities must co-exist within a single plain-text fi
 ### MFDB-132 (Modular File Database Architecture)
 MFDB (Modular File Database) links multiple BEJSON 104 entity files using a central BEJSON 104a manifest (`104a.mfdb.bejson`). It enforces relational integrity, foreign key resolution, atomic file writes, PID locking, and multi-node federation.
 
+![BEJSON Unified Core Slide 5](images/BEJSON_MFDB_Unified_Core_-_Slide_5.png)
+![Compiled Core Slide 5](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_5.png)
+
 ---
 
 ## 3. Single-File Zero-Dependency Paradigm
 
 The compiled core eliminates dependency rot, build-step fragility, and multi-file package overhead.
+
+![BEJSON Unified Core Slide 6](images/BEJSON_MFDB_Unified_Core_-_Slide_6.png)
+![Compiled Core Slide 6](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_6.png)
 
 - **Zero Third-Party Dependencies**: Relies exclusively on core platform features (`json`, `os`, `pathlib`, `hashlib`, `zipfile` in Python; standard ES2022 / Web APIs / Node stdlib in TS/JS; `jq` / POSIX builtins in Shell).
 - **Single-File Portability**: Simply drop `bejson_core_compiled.py`, `bejson_core_compiled.js`, or `bejson_core_compiled.sh` into any application directory.
@@ -163,6 +181,9 @@ The compiled core eliminates dependency rot, build-step fragility, and multi-fil
 ## 4. Cross-Language Polyglot Parity Matrix
 
 The compiled core delivers bit-for-bit behavioral parity across all supported runtimes. A database created in Python can be validated in TypeScript, queried in JavaScript, and processed in Bash with identical behavior and error codes.
+
+![BEJSON Unified Core Slide 7](images/BEJSON_MFDB_Unified_Core_-_Slide_7.png)
+![Compiled Core Slide 7](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_7.png)
 
 | Subsystem Module | Python (`.py`) | TypeScript (`.ts`) | JavaScript (`.js`) | POSIX Shell (`.sh`) |
 | :--- | :---: | :---: | :---: | :---: |
@@ -181,6 +202,9 @@ The compiled core delivers bit-for-bit behavioral parity across all supported ru
 ## 5. Unified Error Registry & Numeric Catalogue
 
 The core maintains a unified, non-overlapping numeric error catalogue spanning all subsystems:
+
+![BEJSON Unified Core Slide 8](images/BEJSON_MFDB_Unified_Core_-_Slide_8.png)
+![Compiled Core Slide 8](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_8.png)
 
 ### BEJSON Validation Codes (1-16)
 - `1`: `E_INVALID_JSON` / `INVALID_JSON`
@@ -252,6 +276,9 @@ The core maintains a unified, non-overlapping numeric error catalogue spanning a
 
 To process tabular plain-text data without performance degradation, the core implements a global **Field Map Cache** (`_FIELD_MAP_CACHE`).
 
+![BEJSON Unified Core Slide 9](images/BEJSON_MFDB_Unified_Core_-_Slide_9.png)
+![Compiled Core Slide 9](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_9.png)
+
 When accessing a BEJSON document, field positions are cached in memory as a tuple mapping (`field_name -> position_index`). Subsequent cell lookups, updates, or filter operations complete in $O(1)$ constant time.
 
 Key Core Functions:
@@ -268,6 +295,9 @@ Key Core Functions:
 ## 7. Validation Subsystem & Strict Type Checking
 
 BEJSON validation enforces strict positional structure, format compliance, and data type safety.
+
+![BEJSON Unified Core Slide 10](images/BEJSON_MFDB_Unified_Core_-_Slide_10.png)
+![Compiled Core Slide 10](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_10.png)
 
 The validation pipeline performs 6 sequential checks:
 1. **Syntax Integrity**: Verifies document is a valid JSON object tree.
@@ -286,6 +316,9 @@ The validation pipeline performs 6 sequential checks:
 
 MFDB manages relational database operations across multiple BEJSON files with transaction safety:
 
+![BEJSON Unified Core Slide 11](images/BEJSON_MFDB_Unified_Core_-_Slide_11.png)
+![Compiled Core Slide 11](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_11.png)
+
 - **Atomic Workspace Management**: Supports mounting and committing compressed database archives (`.mfdb.zip`) via `MFDBArchive.mount()` and `MFDBArchive.commit()`.
 - **Resilient PID Locking**: Implements `ResilientPIDLock`, a directory-based mutex mechanism (`.lockdir/lock_meta.json`) with stale PID detection and automatic reclamation if a process crashes mid-transaction.
 - **Relational Joins**: `mfdb_core_join()` executes cross-entity equi-joins by constructing in-memory hash indexes on target primary keys.
@@ -296,6 +329,10 @@ MFDB manages relational database operations across multiple BEJSON files with tr
 ## 9. Hierarchical List Engine & Tree Integrity
 
 `validate_list()` provides tree and menu integrity checks for BEJSON documents containing `id` and `parent_id` columns:
+
+![BEJSON Unified Core Slide 12](images/BEJSON_MFDB_Unified_Core_-_Slide_12.png)
+![Compiled Core Slide 12](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_12.png)
+
 - **Duplicate ID Detection**: Rejects documents with duplicate unique identifiers.
 - **Orphan Detection**: Identifies child records referencing a `parent_id` that does not exist in the document.
 - **Cycle & Loop Detection**: Detects circular parent-child dependency loops (e.g., $A \rightarrow B \rightarrow C \rightarrow A$) using path traversal tracking.
@@ -305,6 +342,9 @@ MFDB manages relational database operations across multiple BEJSON files with tr
 ## 10. Path Guard Security & Traversal Mitigation
 
 Security is built directly into file resolution:
+
+![BEJSON Unified Core Slide 13](images/BEJSON_MFDB_Unified_Core_-_Slide_13.png)
+![Compiled Core Slide 13](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_13.png)
 
 ### Path Traversal Mitigation (`bejson_safe_join`)
 Mitigates path traversal attacks by resolving base directories and target paths, validating that targets strictly reside within `base_dir`. Prevents sibling directory prefix bypasses (e.g., `/storage/emulated/0/Admin-secret` matching `/storage/emulated/0/Admin`).
@@ -321,6 +361,9 @@ Evaluates relative paths segment-by-segment to prevent `..` sequences from escap
 
 MFDB includes built-in edge federation for multi-device sync across distributed Android hardware:
 
+![BEJSON Unified Core Slide 14](images/BEJSON_MFDB_Unified_Core_-_Slide_14.png)
+![Compiled Core Slide 14](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_14.png)
+
 - **Node Roles**: Nodes declare `Network_Role` as `"Master"` or `"Slave"`.
 - **ConnectedSlave Entity**: Master nodes maintain a registered `ConnectedSlave` entity tracking connected edge devices (`slave_id`, `url`, `role`, `status`, `supported_entities`).
 - **Atomic Config Push**: `mfdb_federation_push_config()` drops configuration documents into a target dropzone directory using temporary file writing and atomic renaming.
@@ -332,6 +375,9 @@ MFDB includes built-in edge federation for multi-device sync across distributed 
 ## 12. Meta-GUID Debug Audit & Telemetry Engine
 
 When `debug_mode=True` is enabled, MFDB automatically provisions an isolated meta-entity named `meta-{UUID4}` (e.g., `meta-d8011c25-dc40-4835-a938-ff727e6eb7a4`).
+
+![BEJSON Unified Core Slide 15](images/BEJSON_MFDB_Unified_Core_-_Slide_15.png)
+![Compiled Core Slide 15](images/The_BEJSON_MFDB_Compiled_Core_-_Slide_15.png)
 
 ### Features:
 - **Zero Overhead when Off**: Completely dormant unless `Debug_Mode="true"` is declared in the manifest.
