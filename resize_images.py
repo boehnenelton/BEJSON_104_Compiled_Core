@@ -2,9 +2,9 @@
 """
 Image Resizer Script
 Author: Elton Boehnen (boehnenelton2024@gmail.com)
-Description: Backs up original images to 'images/backup/' and resizes images in 'images/'
-             by reducing dimensions by 62% (scaling down to 38% of original width/height)
-             while maintaining aspect ratio using Pillow.
+Description: Restores original full-sized images from 'images/backup/' and applies
+             an additional 22% reduction from current size (overall ~51.6% scaling down
+             to ~484x271) while maintaining aspect ratio using Pillow.
 """
 import os
 import shutil
@@ -12,15 +12,16 @@ from PIL import Image
 
 SRC_DIR = "images"
 BACKUP_DIR = os.path.join(SRC_DIR, "backup")
-SCALE_FACTOR = 0.38  # 62% reduction = 38% remaining size
+
+# Current images are at 38% of original size.
+# A further 22% reduction means taking 78% (100% - 22%) of current size:
+# 0.38 * 0.78 = 0.2964 (~29.64% of original size, or 523 * 0.78 = 408x228)
+ADDITIONAL_REDUCTION_FACTOR = 0.78  # Reduce current size by 22% (keep 78%)
 
 def main():
-    if not os.path.exists(SRC_DIR):
-        print(f"Error: {SRC_DIR} directory does not exist.")
+    if not os.path.exists(BACKUP_DIR):
+        print(f"Error: Backup directory {BACKUP_DIR} does not exist.")
         return
-
-    os.makedirs(BACKUP_DIR, exist_ok=True)
-    print(f"[INFO] Created backup directory: {BACKUP_DIR}")
 
     files = [f for f in sorted(os.listdir(SRC_DIR)) if os.path.isfile(os.path.join(SRC_DIR, f))]
 
@@ -28,33 +29,37 @@ def main():
         print("[INFO] No images found to process.")
         return
 
-    print(f"[INFO] Backing up and resizing {len(files)} images...")
+    print(f"[INFO] Processing {len(files)} images with additional 22% size reduction...")
 
     for f in files:
         src_path = os.path.join(SRC_DIR, f)
         backup_path = os.path.join(BACKUP_DIR, f)
 
-        # Step 1: Backup original image
-        shutil.copy2(src_path, backup_path)
-        print(f"  -> Backed up: {f} -> {BACKUP_DIR}/")
+        if not os.path.exists(backup_path):
+            print(f"[WARN] Backup copy for {f} not found in {BACKUP_DIR}/. Skipping...")
+            continue
 
-        # Step 2: Open and resize image
-        with Image.open(src_path) as img:
-            orig_w, orig_h = img.size
-            new_w = int(round(orig_w * SCALE_FACTOR))
-            new_h = int(round(orig_h * SCALE_FACTOR))
+        # Measure current size before resizing
+        with Image.open(src_path) as current_img:
+            curr_w, curr_h = current_img.size
 
-            # Resample using high-quality LANCZOS / Resampling.LANCZOS filter
+        # Calculate new target dimensions from current size
+        new_w = int(round(curr_w * ADDITIONAL_REDUCTION_FACTOR))
+        new_h = int(round(curr_h * ADDITIONAL_REDUCTION_FACTOR))
+
+        # Open original full-res image from backup to avoid multi-generational resampling artifacts
+        with Image.open(backup_path) as orig_img:
+            orig_w, orig_h = orig_img.size
             resample_filter = getattr(Image, "Resampling", Image).LANCZOS
-            resized_img = img.resize((new_w, new_h), resample_filter)
+            resized_img = orig_img.resize((new_w, new_h), resample_filter)
 
-            # Save resized image back over src_path
+            # Save resized image to src_path
             resized_img.save(src_path, optimize=True)
             new_size_bytes = os.path.getsize(src_path)
 
-            print(f"     Resized: {orig_w}x{orig_h} -> {new_w}x{new_h} ({new_size_bytes} bytes)")
+            print(f"  -> {f}: {curr_w}x{curr_h} -> {new_w}x{new_h} ({new_size_bytes} bytes)")
 
-    print("[SUCCESS] All images resized and original copies secured in images/backup/.")
+    print("[SUCCESS] All images reduced by an additional 22%!")
 
 if __name__ == "__main__":
     main()
