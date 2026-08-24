@@ -5,3 +5,4 @@ gemini.md
 __pycache__/
 *.pyc
 images/backup/
+resize_images.py
